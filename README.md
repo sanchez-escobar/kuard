@@ -12,7 +12,7 @@ To build an image:
 To run the image:
 `docker run --rm -p -p 3000:3000 simple-node`
 
-## kuard
+## kuard (kubernetes up and running demo)
 
 For running the kubernetes up and running demo application
 
@@ -45,3 +45,50 @@ To remove kuard"
 
 To delete the image:
 `docker rmi <tag-name>
+
+For more information go to Chapter 2: Creating and Running Containers page 20
+in ../simple_cluster/Kubernetes_book.pdf
+
+## kind (kubernetes in docker)
+
+### Starting the cluster
+
+Installing kind:
+`brew install kind`
+
+To start a cluster:
+`kind create cluster`
+
+To delete a cluster:
+`kind delete cluster`
+
+For more information go to https://kind.sigs.k8s.io/
+
+### Dashboard UI
+
+To deploy the Kubernetes Dashboard UI:
+`kubectl apply -f \
+https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml`
+
+To make Dashboard UI available run:
+`kubectl proxy`
+
+The Dashboard will be available at
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+
+Note that the UI will have RBAC configuration and a sample user will need to be created.
+Follow instructions here:
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
+### Managing pods
+
+To start a pod from a manifest file run:
+`kubectl apply -f kuard-pod.yaml`
+
+To get pod details run:
+`kubectl describe pods kuard`
+
+To access the pod run:
+`kubectl port-forward kuard 8080:8080`
+
+### Service Discovery
